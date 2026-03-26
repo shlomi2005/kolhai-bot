@@ -7,7 +7,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY newsmusic_to_ext3.py .
+COPY *.py .
 
 ENV DATA_DIR=/data
 
