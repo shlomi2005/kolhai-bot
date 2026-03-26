@@ -410,17 +410,16 @@ def process_once():
     )
 
     if not initialized:
-        logger.info("ריצה ראשונה: מסמן את כל הפוסטים הקיימים ככבר נראו, בלי להעלות אחורה")
+        logger.info("ריצה ראשונה: מסמן את הפוסטים הקיימים ככבר נראו, מלבד האחרון")
 
-        for entry in entries:
+        for entry in entries[:-1]:
             seen_post_ids.add(entry["post_id"])
 
         state["seen_post_ids"] = sorted(seen_post_ids)
         state["initialized"] = True
         save_state(CONFIG["state_file"], state)
 
-        logger.info("הסקריפט אותחל. מהריצה הבאה הוא יעלה רק חדשים לגמרי")
-        return
+        logger.info("הסקריפט אותחל. מעלה את הפוסט האחרון לבדיקה...")
 
     found_any_new = False
 
