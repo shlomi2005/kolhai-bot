@@ -1,0 +1,7 @@
+downloads_newsmusic/
+tts_newsmusic/
+compressed_newsmusic/
+state_newsmusic.json
+__pycache__/
+*.pyc
+.env
