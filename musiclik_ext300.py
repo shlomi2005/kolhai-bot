@@ -275,8 +275,16 @@ def build_tts_text(title: str) -> str:
 
 
 async def _tts_async(text: str, output_path: str):
-    communicate = edge_tts.Communicate(text, CONFIG["tts_voice"])
-    await communicate.save(output_path)
+    last_error = None
+    for attempt in range(5):
+        try:
+            communicate = edge_tts.Communicate(text, CONFIG["tts_voice"])
+            await communicate.save(output_path)
+            return
+        except Exception as e:
+            last_error = e
+            await asyncio.sleep(3)
+    raise last_error
 
 
 def create_tts_file(title: str, tts_dir: str) -> str:
