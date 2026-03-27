@@ -406,14 +406,14 @@ def process_once():
     if not initialized:
         logger.info("ריצה ראשונה: מסמן את הפוסטים הקיימים ככבר נראו, מלבד האחרון")
 
-        for entry in entries[:-1]:
+        for entry in entries[:-10]:
             seen_post_ids.add(entry["post_id"])
 
         state["seen_post_ids"] = sorted(seen_post_ids)
         state["initialized"] = True
         save_state(CONFIG["state_file"], state)
 
-        logger.info("הסקריפט אותחל. מעלה את הפוסט האחרון לבדיקה...")
+        logger.info("הסקריפט אותחל. מעלה את 10 הפוסטים האחרונים...")
 
     found_any_new = False
 
@@ -464,6 +464,14 @@ def process_once():
 
         tts_result = upload_file_to_yemot(tts_path)
         logger.info(f"הקריינות הועלתה: {tts_result}")
+
+        # מחיקת קבצים מקומיים לחיסכון במקום
+        for path in set([song_path, song_path_for_upload, tts_path]):
+            try:
+                os.remove(path)
+                logger.info(f"נמחק: {path}")
+            except Exception:
+                pass
 
         found_any_new = True
 
